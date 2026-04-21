@@ -1,0 +1,70 @@
+---
+title: 'Images: embed and style media in your docs pages'
+description: 'Embed images using markdown syntax or the Frame component, write descriptive alt text, and control image sizing in your Mintlify docs.'
+---
+
+Images make documentation easier to follow by showing UI states, diagrams, and visual context alongside written instructions. Mintlify supports the standard markdown image syntax and a `<Frame>` component that adds a styled border and optional caption.
+
+## Adding an image with markdown
+
+Use the standard markdown syntax to embed an image. Place the image file in your project's `images/` directory and reference it with a root-relative path.
+
+```md
+![Dashboard showing the analytics overview](/images/dashboard.png)
+```
+
+The text inside `[]` is the alt text. Always write meaningful alt text — it improves accessibility and appears when the image fails to load.
+
+<Note>
+Image files must be smaller than 5 MB. For larger images, host the file on a service like [Cloudinary](https://cloudinary.com/) or [Amazon S3](https://aws.amazon.com/s3/) and use the full URL in the `src`.
+</Note>
+
+## Using the Frame component
+
+Wrap an image in `<Frame>` to add a rounded border and a consistent visual container. This is especially useful for screenshots where the edges blend into the page background.
+
+```mdx
+<Frame>
+  ![Mintlify dashboard showing the analytics tab](/images/dashboard.png)
+</Frame>
+```
+
+Add a `caption` prop to display a caption below the image:
+
+```mdx
+<Frame caption="The analytics tab shows page views, unique visitors, and search queries.">
+  ![Mintlify dashboard showing the analytics tab](/images/dashboard.png)
+</Frame>
+```
+
+## Controlling image size
+
+Markdown does not support width or height attributes. To control the display size of an image, use the `<img>` tag with explicit dimensions:
+
+```mdx
+<img src="/images/dashboard.png" alt="Mintlify dashboard" width="400" />
+```
+
+For a full-width image that scales responsively, omit the `width` attribute or set `width="100%"`.
+
+## Using external image URLs
+
+You can reference images hosted externally by replacing the path with a full URL:
+
+```md
+![Mintlify hero image](https://mintlify-assets.b-cdn.net/hero.png)
+```
+
+<Tip>
+Store images you own inside your repository under `images/` so they are versioned alongside your docs. Use external URLs only for assets you do not control.
+</Tip>
+
+## Alt text guidelines
+
+Good alt text describes what the image shows, not what it represents. Aim for one or two concise sentences.
+
+| Image type   | Poor alt text        | Better alt text                                              |
+| ------------ | -------------------- | ------------------------------------------------------------ |
+| Screenshot   | `Dashboard`          | `Dashboard showing monthly active users chart for March`    |
+| Diagram      | `Architecture`       | `Diagram showing data flow from client to API to database`  |
+| Icon / logo  | `Logo`               | `Mintlify logo`                                             |

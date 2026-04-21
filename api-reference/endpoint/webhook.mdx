@@ -1,0 +1,69 @@
+---
+title: 'Webhooks — receive and handle plant store events'
+description: 'Get notified instantly when a new plant is added to the store. Set up a webhook endpoint to receive a POST request with the plant payload automatically.'
+---
+
+Webhooks let you react to Plant Store events in real time, without polling the API. When a new plant is added to the store, the Plant Store sends an HTTP `POST` request to the URL you configure. Your server receives the event payload and can act on it immediately — for example, syncing a local database, triggering a notification, or updating a UI.
+
+## How webhooks work
+
+The Plant Store emits a `POST` to your endpoint URL whenever the `/plant/webhook` event fires. Your server must respond with a `200` status code to acknowledge that the payload was received successfully. Any other status code — or a timeout — will be treated as a delivery failure.
+
+<Info>
+  The webhook sends the same `NewPlant` schema used by the `POST /plants` endpoint, so you can reuse any existing parsing logic for that payload.
+</Info>
+
+## Setting up your webhook endpoint
+
+<Steps>
+  <Step title="Create a publicly accessible URL">
+    Your webhook endpoint must be reachable from the internet. During local development, use a tool like [ngrok](https://ngrok.com) to expose a local server.
+  </Step>
+  <Step title="Register your endpoint URL">
+    Provide your endpoint URL when configuring the Plant Store webhook integration. The store will deliver all new-plant events to that URL.
+  </Step>
+  <Step title="Parse the incoming payload">
+    Read the `Content-Type: application/json` body from the incoming `POST` request. Validate the `name` and `id` fields before processing the event.
+  </Step>
+  <Step title="Return a 200 response">
+    Respond with a `200` status code as quickly as possible. Perform any heavy processing asynchronously after acknowledging the event.
+  </Step>
+</Steps>
+
+## Event payload
+
+The webhook delivers a JSON body matching the `NewPlant` schema. The `name` and `id` fields are always present. The `tag` field is optional and may be omitted.
+
+<ResponseField name="name" type="string" required>
+  The name of the plant that was added to the store.
+</ResponseField>
+
+<ResponseField name="id" type="integer" required>
+  The unique identification number assigned to the plant. A 64-bit integer.
+</ResponseField>
+
+<ResponseField name="tag" type="string">
+  An optional tag that specifies the type or category of the plant.
+</ResponseField>
+
+## Example payload
+
+```json
+{
+  "id": 42,
+  "name": "Monstera deliciosa",
+  "tag": "tropical"
+}
+```
+
+## Responding to the event
+
+Your endpoint must return a `200` status to confirm delivery:
+
+```json
+200 OK
+```
+
+<Warning>
+  If your endpoint does not return `200`, the Plant Store will consider the delivery failed. Make sure your server handles the request before performing any logic that could throw an exception, so the acknowledgement is always sent.
+</Warning>

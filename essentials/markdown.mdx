@@ -1,0 +1,140 @@
+---
+title: 'MDX and markdown: write and format docs content'
+description: 'Learn how to format text, add headings, create lists, write blockquotes, and use Note, Info, Tip, and Warning callout components in Mintlify docs.'
+---
+
+Mintlify documentation pages are MDX files, which means you can use standard markdown syntax alongside React components. This page walks you through the core formatting elements you will use most often when writing docs.
+
+## Headings
+
+Use `##` for section headings and `###` for subsection headings. Avoid using `#` (h1) — Mintlify generates the page's h1 from your frontmatter `title`.
+
+```md
+## Section heading
+
+### Subsection heading
+```
+
+<Tip>
+Every `##` and `###` heading automatically creates an anchor link and appears in the table of contents on the right side of the page.
+</Tip>
+
+## Text formatting
+
+Wrap text with the markers below to apply common styles.
+
+| Style         | Syntax            | Result          |
+| ------------- | ----------------- | --------------- |
+| Bold          | `**bold**`        | **bold**        |
+| Italic        | `_italic_`        | _italic_        |
+| Strikethrough | `~strikethrough~` | ~strikethrough~ |
+
+You can combine styles. For example, `**_bold and italic_**` renders as **_bold and italic_**.
+
+## Inline code
+
+Wrap a word or short phrase in single backticks to render it as inline `code`. Use this for file names, commands, variable names, and any literal value the reader should type or recognize.
+
+```md
+Run `npm install` to install dependencies.
+```
+
+## Links
+
+Wrap the link text in `[]` and the URL or path in `()`.
+
+```md
+[Mintlify docs](https://mintlify.com/docs)
+```
+
+For links to other pages in your docs, use root-relative paths without the file extension:
+
+```md
+[Quickstart](/quickstart)
+```
+
+<Note>
+Avoid relative paths like `../quickstart`. Root-relative paths let Mintlify optimize navigation and prefetch pages faster.
+</Note>
+
+## Blockquotes
+
+Start a line with `>` to create a blockquote. Add a blank `>` line between paragraphs to extend the quote across multiple paragraphs.
+
+**Single paragraph**
+
+> Dorothy followed her through many of the beautiful rooms in her castle.
+
+```md
+> Dorothy followed her through many of the beautiful rooms in her castle.
+```
+
+**Multiple paragraphs**
+
+> Dorothy followed her through many of the beautiful rooms in her castle.
+>
+> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+
+```md
+> Dorothy followed her through many of the beautiful rooms in her castle.
+>
+> The Witch bade her clean the pots and kettles and sweep the floor and keep the fire fed with wood.
+```
+
+## Lists
+
+**Unordered list** — use `-` or `*` before each item:
+
+- First item
+- Second item
+- Third item
+  - Nested item
+
+```md
+- First item
+- Second item
+- Third item
+  - Nested item
+```
+
+**Ordered list** — use numbers followed by `.`:
+
+1. Install the CLI
+2. Run `mint dev`
+3. Open `localhost:3000`
+
+```md
+1. Install the CLI
+2. Run `mint dev`
+3. Open `localhost:3000`
+```
+
+## Callout components
+
+Mintlify provides four callout components for drawing attention to important information. Use them sparingly so they retain impact.
+
+<Note>
+Use `Note` for supplementary context that is helpful but not critical.
+</Note>
+
+<Info>
+Use `Info` for prerequisites, permissions, or background knowledge the reader needs before proceeding.
+</Info>
+
+<Tip>
+Use `Tip` for best practices, shortcuts, or recommendations that improve the experience.
+</Tip>
+
+<Warning>
+Use `Warning` before actions that could cause data loss, downtime, or other hard-to-reverse consequences.
+</Warning>
+
+```mdx
+<Note>Supplementary information the reader can safely skip.</Note>
+
+<Info>Background context or prerequisites.</Info>
+
+<Tip>A best practice or helpful shortcut.</Tip>
+
+<Warning>A potentially destructive action or critical caveat.</Warning>
+```

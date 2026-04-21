@@ -1,0 +1,90 @@
+---
+title: "Get started with Mintlify: set up and deploy docs"
+description: "Set up your local environment, connect GitHub for automatic deployments, and publish your Mintlify documentation site live in minutes."
+---
+
+Mintlify lets you build and ship beautiful documentation from MDX files. This guide walks you through cloning your docs repository, previewing changes locally, and deploying your site — all in three steps.
+
+<Steps>
+  <Step title="Set up your local environment">
+    Before you can preview or edit your docs, you need a local copy of your repository and the Mintlify CLI running.
+
+    <AccordionGroup>
+      <Accordion icon="copy" title="Clone your docs repository">
+        During onboarding, Mintlify created a GitHub repository with your docs content. You can find a link to it in your [dashboard](https://dashboard.mintlify.com).
+
+        Follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs to copy the repository to your machine.
+      </Accordion>
+
+      <Accordion icon="rectangle-terminal" title="Start the preview server">
+        With your repository cloned, install the Mintlify CLI and start a local preview:
+
+        1. Install the CLI globally: `npm i -g mint`
+        2. Navigate to your docs directory (where `docs.json` lives).
+        3. Run the preview server: `mint dev`
+        4. Open `http://localhost:3000` to see your docs.
+
+        <Tip>The preview updates automatically as you save changes to any file.</Tip>
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+
+  <Step title="Deploy your changes">
+    Mintlify uses a GitHub app to automatically deploy every push to your docs site — no manual deploys required.
+
+    <AccordionGroup>
+      <Accordion icon="github" title="Install the Mintlify GitHub app">
+        Go to your [dashboard settings](https://dashboard.mintlify.com/settings/organization/github-app) and install the Mintlify GitHub app on your repository.
+
+        Once installed, every commit you push to the default branch triggers a deployment automatically.
+      </Accordion>
+
+      <Accordion icon="palette" title="Customize your site name and colors">
+        Make your first change by updating your site's branding:
+
+        1. Open `docs.json` in your editor.
+        2. Change the `"name"` field to your project name.
+        3. Update the `"colors"` values to match your brand.
+        4. Save the file and confirm the update at `http://localhost:3000`.
+
+        <Tip>Changing the primary color is the fastest way to see an immediate visual difference.</Tip>
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+
+  <Step title="Go live">
+    Publishing your docs is as simple as pushing to GitHub.
+
+    <AccordionGroup>
+      <Accordion icon="rocket" title="Publish your documentation">
+        1. Commit your changes locally.
+        2. Push to your repository's default branch.
+        3. Mintlify detects the push and deploys your updated site within moments.
+
+        <Note>You can monitor deployment status from your [Mintlify dashboard](https://dashboard.mintlify.com).</Note>
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+</Steps>
+
+## Next steps
+
+With your site live, explore these areas to get the most out of Mintlify:
+
+<CardGroup cols={2}>
+  <Card title="Write content" icon="pen-to-square" href="/essentials/markdown">
+    Learn MDX syntax and start writing your documentation pages.
+  </Card>
+
+  <Card title="Customize your style" icon="palette" href="/essentials/settings">
+    Update colors, fonts, and layout to match your brand.
+  </Card>
+
+  <Card title="Add code examples" icon="square-code" href="/essentials/code">
+    Include syntax-highlighted code blocks in your pages.
+  </Card>
+
+  <Card title="Add API documentation" icon="code" href="/api-reference/introduction">
+    Auto-generate interactive API docs from an OpenAPI spec.
+  </Card>
+</CardGroup>

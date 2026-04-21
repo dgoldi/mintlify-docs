@@ -1,0 +1,171 @@
+---
+title: 'Code blocks: syntax highlighting and CodeGroup tabs'
+description: 'Display fenced code blocks with syntax highlighting, name your snippets, group multi-language examples, and highlight specific lines in your docs.'
+---
+
+Mintlify renders fenced code blocks with full syntax highlighting and a built-in copy button. You can label blocks with a file name, group multiple languages together, and highlight individual lines to draw attention to the parts that matter most.
+
+## Basic code blocks
+
+Open a fenced code block with three backticks followed immediately by a language identifier. Close it with three backticks on their own line. The language tag enables syntax highlighting.
+
+````md
+```typescript
+const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+```
+````
+
+This renders as:
+
+```typescript
+const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+```
+
+## Naming a code block
+
+Add a file name after the language tag to label the block. This is useful when showing where a snippet belongs in a project.
+
+````md
+```typescript lib/greet.ts
+const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+```
+````
+
+```typescript lib/greet.ts
+const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+```
+
+## Language examples
+
+Below are code blocks in four common languages.
+
+```bash
+npm install --save-dev typescript
+npx tsc --init
+```
+
+```typescript
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+async function getUser(id: number): Promise<User> {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+```
+
+```python
+def fibonacci(n: int) -> list[int]:
+    sequence = [0, 1]
+    for _ in range(2, n):
+        sequence.append(sequence[-1] + sequence[-2])
+    return sequence[:n]
+```
+
+```json
+{
+  "name": "my-docs",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "mint dev",
+    "build": "mint build"
+  }
+}
+```
+
+## Grouping multiple languages with CodeGroup
+
+Use `<CodeGroup>` when you want to show the same operation in several languages and let the reader switch between them. Each child is a standard fenced code block — the language tag becomes the tab label, and the optional file name appears inside the tab.
+
+````mdx
+<CodeGroup>
+
+```bash npm
+npm i -g mint
+```
+
+```bash yarn
+yarn global add mint
+```
+
+```bash pnpm
+pnpm add -g mint
+```
+
+</CodeGroup>
+````
+
+<CodeGroup>
+
+```bash npm
+npm i -g mint
+```
+
+```bash yarn
+yarn global add mint
+```
+
+```bash pnpm
+pnpm add -g mint
+```
+
+</CodeGroup>
+
+You can mix languages freely inside a `<CodeGroup>`:
+
+````mdx
+<CodeGroup>
+
+```bash Terminal
+mint dev
+```
+
+```json docs.json
+{
+  "name": "My Docs",
+  "theme": "mint",
+  "colors": {
+    "primary": "#3B82F6"
+  }
+}
+```
+
+</CodeGroup>
+````
+
+<CodeGroup>
+
+```bash Terminal
+mint dev
+```
+
+```json docs.json
+{
+  "name": "My Docs",
+  "theme": "mint",
+  "colors": {
+    "primary": "#3B82F6"
+  }
+}
+```
+
+</CodeGroup>
+
+## Inline code
+
+Wrap a word or short phrase in single backticks to render it as inline `code`. Use inline code for command names, variable names, file paths, and any literal value the reader needs to recognize or type.
+
+```md
+Run `mint dev` to start the local preview server.
+```

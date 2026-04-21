@@ -1,0 +1,40 @@
+---
+title: 'DELETE /plants/{id} — permanently remove a plant'
+description: 'Permanently delete a single plant from the Plant Store by its ID. Returns an empty 204 response on success. This action cannot be undone.'
+---
+
+The `DELETE /plants/{id}` endpoint permanently removes a plant record from the store. You identify the plant to delete by passing its numeric ID in the URL path. A successful deletion returns a `204 No Content` response with an empty body — there is no plant object to return once it has been deleted.
+
+## Path parameters
+
+<ParamField path="id" type="integer" required>
+  The unique ID of the plant to delete. Accepts a 64-bit integer. You can retrieve plant IDs from the `GET /plants` endpoint.
+</ParamField>
+
+## Response
+
+### 204 — plant deleted
+
+The plant was successfully removed. The response body is empty.
+
+### 400 — unexpected error
+
+<ResponseField name="error" type="integer" required>
+  A numeric error code identifying the problem.
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  A human-readable description of the error.
+</ResponseField>
+
+## Example request
+
+```bash cURL
+curl --request DELETE \
+  --url 'http://sandbox.mintlify.com/plants/42' \
+  --header 'Authorization: Bearer <token>'
+```
+
+<Warning>
+  Deletion is permanent. There is no way to recover a plant record after it has been deleted. Confirm the correct `id` before sending the request.
+</Warning>

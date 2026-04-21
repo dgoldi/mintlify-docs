@@ -1,0 +1,63 @@
+---
+title: 'GET /plants — retrieve all plants from the store'
+description: 'Retrieve every plant your account can access from the Plant Store. Supports a limit parameter to control how many results the API returns.'
+---
+
+The `GET /plants` endpoint returns an array of all plant records that the authenticated user has access to. You can optionally cap the number of results with the `limit` query parameter, which is useful when you want to page through a large catalog or display a preview on a dashboard.
+
+## Query parameters
+
+<ParamField query="limit" type="integer">
+  The maximum number of plants to return. Omit this parameter to retrieve all plants the authenticated user can access. Accepts a 32-bit integer.
+</ParamField>
+
+## Response
+
+A successful request returns a `200` status code with a JSON array. Each element in the array is a plant object.
+
+### 200 — plant array
+
+<ResponseField name="[].name" type="string" required>
+  The name of the plant.
+</ResponseField>
+
+<ResponseField name="[].tag" type="string">
+  An optional tag that specifies the type or category of the plant.
+</ResponseField>
+
+### 400 — unexpected error
+
+<ResponseField name="error" type="integer" required>
+  A numeric error code identifying the problem.
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  A human-readable description of the error.
+</ResponseField>
+
+## Example request
+
+```bash cURL
+curl --request GET \
+  --url 'http://sandbox.mintlify.com/plants?limit=10' \
+  --header 'Authorization: Bearer <token>'
+```
+
+## Example response
+
+```json 200
+[
+  {
+    "name": "Monstera deliciosa",
+    "tag": "tropical"
+  },
+  {
+    "name": "Fiddle-leaf fig",
+    "tag": "indoor"
+  }
+]
+```
+
+<Tip>
+  Use the `limit` parameter during development to keep response payloads small and easy to inspect. Remove it (or set a high value) when you need the full catalog.
+</Tip>

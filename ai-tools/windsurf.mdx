@@ -1,0 +1,56 @@
+---
+title: "AI writing with Windsurf: set up the Mintlify skill"
+description: "Configure Windsurf and Cascade with the Mintlify skill to get component reference, writing standards, and workflow guidance in your editor."
+icon: "water"
+---
+
+Windsurf's Cascade AI assistant can read your project files and write documentation in context. Installing the Mintlify skill gives Cascade the component reference and writing conventions it needs to produce accurate, well-structured Mintlify docs without needing correction on formatting or component usage.
+
+## Prerequisites
+
+- [Windsurf](https://codeium.com/windsurf) installed
+- A Mintlify docs repository with a `docs.json` file at the root
+
+## Setup
+
+<Steps>
+  <Step title="Open your docs directory in Windsurf">
+    Open the root of your documentation repository — the folder that contains `docs.json`. This ensures Cascade has access to your full project context when generating or editing content.
+  </Step>
+
+  <Step title="Install the Mintlify skill">
+    In Windsurf's integrated terminal, run:
+
+    ```bash
+    npx skills add https://mintlify.com/docs
+    ```
+
+    This installs Mintlify's component reference, writing standards, and workflow guidance into your project so Cascade can use them when you ask it to write or edit docs.
+
+    <Note>
+      The skill creates an `AGENTS.md` file at your project root if one doesn't already exist. Windsurf reads this file automatically when Cascade generates content.
+    </Note>
+  </Step>
+
+  <Step title="Customize your project instructions">
+    Open `AGENTS.md` in your project root and add any project-specific context:
+
+    - **Terminology** — preferred terms and phrases (e.g., "workspace" not "project")
+    - **Style preferences** — tone, formatting rules, or conventions specific to your docs
+    - **Content boundaries** — what should and shouldn't be documented
+
+    <Tip>
+      Add your product name, key concepts, and any terminology that differs from common usage. This reduces the need to correct Cascade's output after the fact.
+    </Tip>
+  </Step>
+
+  <Step title="Start writing with Cascade">
+    Open any `.mdx` file in your docs project and use Cascade to draft new pages, expand sections, or improve existing content. You can work through Cascade's chat panel or ask it to make targeted edits inline.
+
+    Cascade will follow the Mintlify component conventions and writing standards from the installed skill, including correct use of `<Steps>`, `<Note>`, `<Card>`, and other components.
+
+    <Info>
+      Run `mint dev` in your terminal to preview your docs locally at `localhost:3000` while you write.
+    </Info>
+  </Step>
+</Steps>

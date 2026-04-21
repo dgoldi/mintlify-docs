@@ -1,0 +1,89 @@
+{
+  "projectType": "saas",
+  "projectName": "Mintlify",
+  "projectDescription": "A documentation platform that lets teams build, deploy, and maintain beautiful, developer-friendly documentation sites from MDX files.",
+  "theme": "luma",
+  "primaryColor": "#54545c",
+  "lightColor": null,
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "index",
+              "quickstart",
+              "development"
+            ]
+          },
+          {
+            "group": "Customize",
+            "pages": [
+              "essentials/settings",
+              "essentials/navigation"
+            ]
+          },
+          {
+            "group": "Write Content",
+            "pages": [
+              "essentials/markdown",
+              "essentials/code",
+              "essentials/images",
+              "essentials/reusable-snippets"
+            ]
+          },
+          {
+            "group": "AI Tools",
+            "pages": [
+              "ai-tools/cursor",
+              "ai-tools/claude-code",
+              "ai-tools/windsurf"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api-reference/endpoint/get",
+              "api-reference/endpoint/create",
+              "api-reference/endpoint/delete",
+              "api-reference/endpoint/webhook"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "MDX-based documentation pages with rich component support",
+    "Automatic deployment via GitHub integration",
+    "Local preview with hot reload via Mintlify CLI",
+    "Built-in API reference documentation from OpenAPI specs",
+    "AI-assisted writing with Cursor, Claude Code, and Windsurf",
+    "Customizable branding — colors, logo, favicon, navigation",
+    "Reusable content snippets",
+    "Contextual AI chat (ChatGPT, Claude, Perplexity) on every page"
+  ],
+  "publicApiSurface": [
+    "mint dev — start local preview server",
+    "mint dev --port <port> — run on custom port",
+    "mint broken-links — validate internal links",
+    "mint update — update CLI to latest version",
+    "npx skills add <url> — install AI writing skill",
+    "docs.json — site configuration file",
+    "docs.json: name, colors, logo, favicon, navigation, navbar, footer, openapi, contextual"
+  ]
+}

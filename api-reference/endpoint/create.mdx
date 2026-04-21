@@ -1,0 +1,73 @@
+---
+title: 'POST /plants — create and add a plant to the store'
+description: 'Add a new plant to the Plant Store by sending a JSON request body with a name, an ID, and an optional tag. Returns the created plant object on success.'
+---
+
+The `POST /plants` endpoint adds a new plant record to the store. You send the plant data as a JSON body and the API returns the complete plant object, including the assigned ID, if the request succeeds. The request body is required — the API will reject requests that omit it.
+
+## Request body
+
+The request body must be a JSON object. The `name` and `id` fields are required.
+
+<ParamField body="name" type="string" required>
+  The name of the plant to create.
+</ParamField>
+
+<ParamField body="id" type="integer" required>
+  A unique identification number for the plant. Accepts a 64-bit integer.
+</ParamField>
+
+<ParamField body="tag" type="string">
+  An optional tag that specifies the type or category of the plant (for example, `"tropical"` or `"succulent"`).
+</ParamField>
+
+## Response
+
+### 200 — created plant
+
+A successful request returns a `200` status code with the newly created plant object.
+
+<ResponseField name="name" type="string" required>
+  The name of the plant.
+</ResponseField>
+
+<ResponseField name="tag" type="string">
+  The tag associated with the plant, if one was provided.
+</ResponseField>
+
+### 400 — unexpected error
+
+<ResponseField name="error" type="integer" required>
+  A numeric error code identifying the problem.
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  A human-readable description of the error.
+</ResponseField>
+
+## Example request
+
+```bash cURL
+curl --request POST \
+  --url 'http://sandbox.mintlify.com/plants' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "id": 42,
+    "name": "Monstera deliciosa",
+    "tag": "tropical"
+  }'
+```
+
+## Example response
+
+```json 200
+{
+  "name": "Monstera deliciosa",
+  "tag": "tropical"
+}
+```
+
+<Warning>
+  The request body is required. Sending a `POST` request without a JSON body will return a `400` error.
+</Warning>

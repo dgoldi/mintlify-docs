@@ -1,0 +1,96 @@
+---
+title: "Preview your docs locally with the Mintlify CLI"
+description: "Install the Mintlify CLI and run a live local preview server. Covers custom ports, keeping the CLI up to date, and troubleshooting common issues."
+---
+
+The Mintlify CLI lets you preview your documentation site on your local machine before pushing changes. Every file save refreshes the preview instantly, so you can iterate quickly without waiting for a deployment.
+
+<Info>
+  **Prerequisites**
+
+  - Node.js version 19 or higher
+  - A docs repository containing a `docs.json` file
+</Info>
+
+## Install and preview
+
+<Steps>
+  <Step title="Install the Mintlify CLI">
+    Run the following command to install the CLI globally:
+
+    ```bash
+    npm i -g mint
+    ```
+  </Step>
+
+  <Step title="Start the local preview">
+    Navigate to your docs directory — the folder that contains your `docs.json` file — and run:
+
+    ```bash
+    mint dev
+    ```
+
+    The CLI starts a local server and your documentation is available at `http://localhost:3000`. The preview reflects every file change you save in real time.
+  </Step>
+</Steps>
+
+## Custom ports
+
+By default, the CLI uses port 3000. To run the preview on a different port, pass the `--port` flag:
+
+```bash
+mint dev --port 3333
+```
+
+If the port you specify is already in use, the CLI automatically tries the next available one and notifies you:
+
+```text
+Port 3000 is already in use. Trying 3001 instead.
+```
+
+## Keeping the CLI up to date
+
+Each CLI release targets a specific version of Mintlify. If your local preview looks different from your published site, your CLI may be out of date. Update it with:
+
+```bash
+npm mint update
+```
+
+<Tip>Check the [CLI changelog](https://www.npmjs.com/package/mintlify?activeTab=versions) to see what changed in the latest release.</Tip>
+
+## Validating links
+
+Run the following command from your docs directory to scan for broken internal links:
+
+```bash
+mint broken-links
+```
+
+The CLI reports any links that point to pages that do not exist, so you can fix them before publishing.
+
+## Code formatting
+
+Formatting MDX files consistently makes content easier to maintain. If you use VS Code, the following extensions are recommended:
+
+- [MDX](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) — syntax highlighting for `.mdx` files
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) — automatic code formatting on save
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
+    This error usually means your Node.js version is too old. To fix it:
+
+    1. Remove the current CLI installation: `npm remove -g mint`
+    2. Upgrade Node.js to version 19 or higher.
+    3. Reinstall the CLI: `npm i -g mint`
+  </Accordion>
+
+  <Accordion title="Issue: Encountering an unknown error">
+    Delete the cached Mintlify data and restart the preview:
+
+    1. Navigate to your home directory.
+    2. Delete the `~/.mintlify` folder.
+    3. Run `mint dev` again from your docs directory.
+  </Accordion>
+</AccordionGroup>

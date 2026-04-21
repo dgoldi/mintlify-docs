@@ -1,0 +1,409 @@
+---
+title: 'Navigation: configure tabs, groups, and anchors'
+description: 'Learn how to configure tabs, groups, anchors, and page ordering in docs.json to build a clear, intuitive navigation structure for your docs.'
+---
+
+Navigation in Mintlify is defined entirely in `docs.json`. Your sidebar, tabs, and section anchors all come from the `navigation` object — pages do not appear automatically when you create them. Every time you add a new MDX file, you need to add its path to `docs.json` before it shows up in the sidebar.
+
+## How navigation works
+
+The `navigation` property accepts one of several structural patterns: groups, tabs, anchors, dropdowns, or products. You can also combine these — for example, tabs containing groups, or products containing tabs. Choose the pattern that best matches your content's scope and audience.
+
+<AccordionGroup>
+  <Accordion title="Groups — default, single-audience docs">
+    Groups are the simplest pattern. Use them when your documentation has one audience and a straightforward hierarchy. Each group has a title and a list of page paths.
+  </Accordion>
+  <Accordion title="Tabs — distinct sections or content types">
+    Tabs appear at the top of the sidebar and let visitors switch between entirely separate sections, such as a user guide and an API reference. Each tab contains its own groups.
+  </Accordion>
+  <Accordion title="Anchors — persistent section links">
+    Anchors are links pinned to the top of the sidebar that remain visible no matter which section is active. Use them for frequently accessed areas like a changelog or API reference.
+  </Accordion>
+  <Accordion title="Dropdowns — switchable top-level sections">
+    Dropdowns let visitors switch between multiple top-level sections from a menu. They work well when you have several distinct areas but don't need the persistent visibility of tabs.
+  </Accordion>
+  <Accordion title="Products — separate docs per product">
+    Products are suited for multi-product companies where each product needs its own complete documentation tree, including its own tabs and groups.
+  </Accordion>
+</AccordionGroup>
+
+## Setting up groups
+
+Groups are the default building block. You can nest a group inside another group's `pages` array to create a collapsible sub-section.
+
+<CodeGroup>
+
+```json Flat groups
+"navigation": {
+  "groups": [
+    {
+      "group": "Getting started",
+      "pages": ["quickstart", "installation"]
+    },
+    {
+      "group": "Guides",
+      "pages": ["guides/authentication", "guides/webhooks"]
+    }
+  ]
+}
+```
+
+```json Nested groups
+"navigation": {
+  "groups": [
+    {
+      "group": "Getting started",
+      "pages": [
+        "quickstart",
+        "installation",
+        {
+          "group": "Advanced setup",
+          "expanded": false,
+          "pages": ["advanced/configuration", "advanced/deployment"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+Each group object accepts the following properties:
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `group` | string | Yes | The section title shown in the sidebar. |
+| `pages` | array | Yes | Page paths (strings) or nested group objects. |
+| `icon` | string | No | Lucide or Font Awesome icon name. |
+| `tag` | string | No | Label displayed next to the group name (e.g., `"NEW"`). |
+| `expanded` | boolean | No | Default open state for nested groups. Top-level groups are always expanded. |
+| `root` | string | No | Page path to navigate to when clicking the group title. |
+
+<Note>
+  Page paths in `docs.json` do not include the `.mdx` extension. Write `"quickstart"` not `"quickstart.mdx"`.
+</Note>
+
+## Setting up tabs
+
+Tabs divide your docs into distinct sections, each with its own sidebar. This is the right choice when you have content for different audiences — for example, a user guide alongside an API reference.
+
+<CodeGroup>
+
+```json Tabs with groups
+"navigation": {
+  "tabs": [
+    {
+      "tab": "Documentation",
+      "icon": "book-open",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart", "installation"]
+        },
+        {
+          "group": "Guides",
+          "pages": ["guides/authentication", "guides/webhooks"]
+        }
+      ]
+    },
+    {
+      "tab": "API reference",
+      "icon": "square-terminal",
+      "groups": [
+        {
+          "group": "Endpoints",
+          "pages": ["api/overview", "api/users", "api/events"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```json Tab linking to external URL
+"navigation": {
+  "tabs": [
+    {
+      "tab": "Documentation",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart"]
+        }
+      ]
+    },
+    {
+      "tab": "Blog",
+      "icon": "newspaper",
+      "href": "https://example.com/blog"
+    }
+  ]
+}
+```
+
+```json Tabs with flat page lists
+"navigation": {
+  "tabs": [
+    {
+      "tab": "Guides",
+      "groups": [
+        {
+          "group": "Core concepts",
+          "pages": ["concepts/overview", "concepts/architecture"]
+        }
+      ]
+    },
+    {
+      "tab": "SDK reference",
+      "pages": [
+        "sdk/javascript",
+        "sdk/python",
+        "sdk/ruby"
+      ]
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+Each tab accepts the following properties:
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `tab` | string | Yes | The label displayed on the tab. |
+| `groups` | Group[] | No | Navigation groups shown within this tab. |
+| `pages` | string[] | No | Flat list of page paths without grouping. |
+| `icon` | string | No | Icon displayed next to the tab label. |
+| `href` | string | No | External URL the tab links to. |
+
+## Setting up anchors
+
+Anchors are persistent links pinned at the top of the sidebar. Unlike tabs, they remain visible regardless of which section the visitor is currently in. Use them for areas you want to be reachable from anywhere, like a changelog or community forum.
+
+<CodeGroup>
+
+```json Anchors linking to doc sections
+"navigation": {
+  "anchors": [
+    {
+      "anchor": "Documentation",
+      "icon": "book-open",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart", "installation"]
+        }
+      ]
+    },
+    {
+      "anchor": "API reference",
+      "icon": "square-terminal",
+      "groups": [
+        {
+          "group": "Endpoints",
+          "pages": ["api/overview"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```json Anchors with external links
+"navigation": {
+  "anchors": [
+    {
+      "anchor": "Documentation",
+      "icon": "book-open",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart"]
+        }
+      ]
+    },
+    {
+      "anchor": "Community",
+      "icon": "discord",
+      "href": "https://discord.gg/example"
+    },
+    {
+      "anchor": "Changelog",
+      "icon": "list",
+      "href": "/changelog"
+    }
+  ]
+}
+```
+
+```json Global anchors
+"navigation": {
+  "global": {
+    "anchors": [
+      {
+        "anchor": "Changelog",
+        "icon": "list",
+        "href": "/changelog"
+      }
+    ]
+  },
+  "tabs": [
+    {
+      "tab": "Documentation",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  Place anchors you want visible on every page — regardless of which tab or section the visitor is in — under `navigation.global.anchors` instead of `navigation.anchors`.
+</Tip>
+
+## Organizing pages with folders
+
+Place your MDX files inside folders to create URL structure. A file at `guides/authentication.mdx` is referenced in `docs.json` as `"guides/authentication"`.
+
+```json
+"navigation": {
+  "groups": [
+    {
+      "group": "Guides",
+      "pages": [
+        "guides/authentication",
+        "guides/webhooks",
+        "guides/rate-limits"
+      ]
+    }
+  ]
+}
+```
+
+This produces URLs like `https://yourdocs.com/guides/authentication`.
+
+<Warning>
+  Do not name a top-level folder `api`. Mintlify runs on Next.js, which reserves the top-level `/api` path for server functions. Use a name like `api-reference` instead.
+</Warning>
+
+## Ordering pages
+
+Pages appear in the sidebar in the exact order you list them in `docs.json`. To reorder them, change their position in the `pages` array.
+
+```json
+"navigation": {
+  "groups": [
+    {
+      "group": "Getting started",
+      "pages": [
+        "overview",
+        "quickstart",
+        "installation",
+        "configuration"
+      ]
+    }
+  ]
+}
+```
+
+There is no automatic alphabetical sorting — the order you define is the order visitors see.
+
+## Hidden pages
+
+Any MDX file you don't add to `docs.json` will not appear in the sidebar. The page is still accessible if someone has the direct URL, and it will appear in search results.
+
+To completely exclude a file from your published site — including search — add it to a `.mintignore` file in your docs root.
+
+```
+drafts/
+*.draft.mdx
+```
+
+<Note>
+  You can also set `hidden: true` in a page's frontmatter to keep it out of the sidebar while leaving it reachable by URL. This is useful for pages you want to link to internally without surfacing in navigation.
+</Note>
+
+## Combining navigation patterns
+
+Navigation elements can nest within each other. Here are common combinations:
+
+<AccordionGroup>
+  <Accordion title="Tabs containing groups (most common)">
+    ```json
+    "navigation": {
+      "tabs": [
+        {
+          "tab": "Guides",
+          "groups": [
+            { "group": "Basics", "pages": ["overview", "quickstart"] },
+            { "group": "Advanced", "pages": ["advanced/config"] }
+          ]
+        },
+        {
+          "tab": "API",
+          "groups": [
+            { "group": "Reference", "pages": ["api/endpoints"] }
+          ]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+  <Accordion title="Products containing tabs">
+    ```json
+    "navigation": {
+      "products": [
+        {
+          "product": "Platform",
+          "icon": "server",
+          "tabs": [
+            {
+              "tab": "Documentation",
+              "groups": [
+                { "group": "Getting started", "pages": ["platform/quickstart"] }
+              ]
+            },
+            {
+              "tab": "API",
+              "pages": ["platform/api/overview"]
+            }
+          ]
+        },
+        {
+          "product": "Mobile SDK",
+          "icon": "smartphone",
+          "pages": ["mobile/overview", "mobile/installation"]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+  <Accordion title="Global anchors with tabs">
+    ```json
+    "navigation": {
+      "global": {
+        "anchors": [
+          { "anchor": "Changelog", "icon": "list", "href": "/changelog" },
+          { "anchor": "Status", "icon": "activity", "href": "https://status.example.com" }
+        ]
+      },
+      "tabs": [
+        {
+          "tab": "Documentation",
+          "groups": [
+            { "group": "Getting started", "pages": ["quickstart"] }
+          ]
+        }
+      ]
+    }
+    ```
+  </Accordion>
+</AccordionGroup>

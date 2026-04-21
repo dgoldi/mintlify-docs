@@ -1,0 +1,67 @@
+---
+title: "AI writing with Claude Code: Mintlify skill setup"
+description: "Set up Claude Code with the Mintlify skill to get component reference, writing standards, and workflow guidance directly in your terminal session."
+icon: "asterisk"
+---
+
+Claude Code is a terminal-based AI coding agent that can read your project files, understand your documentation structure, and write or edit content in context. Installing the Mintlify skill gives it the component reference and writing conventions it needs to produce accurate, well-structured Mintlify docs.
+
+## Prerequisites
+
+- An active Claude subscription (Pro, Max, or API access)
+- A Mintlify docs repository with a `docs.json` file at the root
+- Node.js installed
+
+## Setup
+
+<Steps>
+  <Step title="Install Claude Code">
+    Install the Claude Code CLI globally:
+
+    ```bash
+    npm install -g @anthropic-ai/claude-code
+    ```
+
+    Once installed, authenticate by running `claude` and following the prompts.
+  </Step>
+
+  <Step title="Install the Mintlify skill">
+    Navigate to your docs directory and run:
+
+    ```bash
+    npx skills add https://mintlify.com/docs
+    ```
+
+    This installs Mintlify's component reference, writing standards, and workflow guidance into your project so Claude Code can use them when writing or editing documentation.
+
+    <Note>
+      The skill creates an `AGENTS.md` file at your project root if one doesn't already exist. Claude Code reads this file automatically when it starts a session in that directory.
+    </Note>
+  </Step>
+
+  <Step title="Customize your project instructions">
+    Open `AGENTS.md` in your project root and add project-specific context:
+
+    - **Terminology** — preferred terms and phrases (e.g., "workspace" not "project")
+    - **Style preferences** — tone, formatting rules, or conventions specific to your docs
+    - **Content boundaries** — what should and shouldn't be documented
+
+    <Tip>
+      Add your product name, key concepts, and any terminology that differs from common usage. This reduces the need to correct AI-generated content after the fact.
+    </Tip>
+  </Step>
+
+  <Step title="Start writing with Claude Code">
+    From your docs directory, start a Claude Code session:
+
+    ```bash
+    claude
+    ```
+
+    You can now ask Claude Code to draft new pages, update existing content, fix formatting, or restructure sections. It will follow the Mintlify component conventions and writing standards from the installed skill.
+
+    <Info>
+      Run `mint dev` in a separate terminal to preview your docs locally at `localhost:3000` while you write.
+    </Info>
+  </Step>
+</Steps>

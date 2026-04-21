@@ -1,0 +1,41 @@
+---
+title: 'API reference: OpenAPI and MDX documentation'
+description: 'Learn how to document REST APIs in Mintlify using OpenAPI specs or MDX components, and how to authenticate every request with a Bearer token.'
+---
+
+The API reference section gives you a live, interactive playground for every endpoint in your API. You can populate it automatically from an OpenAPI specification file, or build each page by hand using Mintlify's MDX API components — whichever fits your workflow.
+
+## Two ways to build API docs
+
+Mintlify supports two approaches for creating API documentation:
+
+- **OpenAPI** — Point Mintlify at an `openapi.json` or `openapi.yaml` file and the platform generates interactive reference pages for every path automatically. Use this when you already maintain a machine-readable spec.
+- **MDX components** — Write each endpoint page by hand using `<ParamField>` and `<ResponseField>` components. Use this when you need fine-grained control over the content, or when you don't have an OpenAPI spec.
+
+You can mix both approaches in the same project. The example below uses the OpenAPI method with the Plant Store specification file.
+
+<Card
+  title="Plant Store OpenAPI specification"
+  icon="leaf"
+  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+>
+  View the full OpenAPI 3.1 spec that powers this API reference section.
+</Card>
+
+## Authentication
+
+All endpoints in this API require authentication. You authenticate by passing a Bearer token in the `Authorization` header of every request.
+
+```json
+"security": [
+  {
+    "bearerAuth": []
+  }
+]
+```
+
+Mintlify reads the `securitySchemes` block from your OpenAPI spec and automatically adds the authorization field to the interactive playground. You enter your token once and it is applied to every request you send from the docs.
+
+## Getting started
+
+If you want to add your own API to Mintlify, point the `openapi` field in your `docs.json` to your spec file, then add each endpoint path to your navigation. See the [OpenAPI setup guide](https://mintlify.com/docs/api-playground/openapi/setup) for step-by-step instructions.

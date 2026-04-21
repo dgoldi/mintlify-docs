@@ -1,0 +1,536 @@
+---
+title: 'Global settings: configure your site with docs.json'
+description: 'docs.json controls every aspect of your Mintlify site — from its name and colors to navigation structure, API settings, and appearance.'
+---
+
+Every Mintlify project requires a `docs.json` file at the root of your repository. This file defines your site's identity, visual theme, navigation structure, and integrations. The properties below cover everything you can configure — use them as a reference whenever you need to adjust how your site looks or behaves.
+
+## Properties
+
+<ResponseField name="name" type="string" required>
+  The name of your project. Mintlify uses this as the global title for your documentation site.
+
+  ```json
+  "name": "Acme Docs"
+  ```
+</ResponseField>
+
+<ResponseField name="navigation" type="object" required>
+  Defines the pages that appear in your sidebar. You can structure navigation using groups, tabs, anchors, dropdowns, or products. See [Set up navigation](/essentials/navigation) for a full guide.
+
+  <Expandable title="Navigation properties">
+    <ResponseField name="groups" type="Group[]">
+      An array of named groups, each containing a list of page paths. Use groups when your docs have a single audience and a straightforward hierarchy.
+
+      ```json
+      "navigation": {
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": ["quickstart", "installation"]
+          }
+        ]
+      }
+      ```
+    </ResponseField>
+
+    <ResponseField name="tabs" type="Tab[]">
+      An array of tabs shown at the top of the sidebar. Use tabs to separate distinct content types or audiences.
+
+      ```json
+      "navigation": {
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["quickstart"]
+              }
+            ]
+          },
+          {
+            "tab": "API reference",
+            "pages": ["api/overview"]
+          }
+        ]
+      }
+      ```
+    </ResponseField>
+
+    <ResponseField name="anchors" type="Anchor[]">
+      Persistent section links that appear at the top of the sidebar on every page.
+    </ResponseField>
+
+    <ResponseField name="global" type="object">
+      Global anchors that remain visible regardless of which section is active.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="colors" type="object" required>
+  Hex color codes that define your global theme.
+
+  ```json
+  "colors": {
+    "primary": "#3B82F6",
+    "light": "#93C5FD",
+    "dark": "#1D4ED8"
+  }
+  ```
+
+  <Expandable title="Colors properties">
+    <ResponseField name="primary" type="string" required>
+      The primary brand color. Used for highlighted content, section headers, and accents in light mode. Must be a hex code starting with `#`.
+    </ResponseField>
+
+    <ResponseField name="light" type="string">
+      The primary color for dark mode. Used for highlighted content, section headers, and accents when a visitor has dark mode enabled.
+    </ResponseField>
+
+    <ResponseField name="dark" type="string">
+      The color for important buttons and interactive hover states.
+    </ResponseField>
+
+    <ResponseField name="background" type="object">
+      Override the default background color for light and dark mode.
+
+      <Expandable title="Background properties">
+        <ResponseField name="light" type="string" required>
+          Hex color code for the background in light mode.
+        </ResponseField>
+        <ResponseField name="dark" type="string" required>
+          Hex color code for the background in dark mode.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="logo" type="string | object">
+  Path to your logo image. Pass a string for a single logo, or an object to provide separate images for light and dark mode.
+
+  <CodeGroup>
+
+  ```json Single logo
+  "logo": "/logo/logo.svg"
+  ```
+
+  ```json Light and dark logos
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://example.com"
+  }
+  ```
+
+  </CodeGroup>
+
+  <Expandable title="Logo properties">
+    <ResponseField name="light" type="string">
+      Path to the logo displayed in light mode.
+    </ResponseField>
+    <ResponseField name="dark" type="string">
+      Path to the logo displayed in dark mode.
+    </ResponseField>
+    <ResponseField name="href" type="string" default="/">
+      The URL that clicking the logo navigates to. Defaults to `/`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="favicon" type="string | object">
+  Path to your favicon. Accepts a single file or an object with separate light and dark variants.
+
+  <CodeGroup>
+
+  ```json Single favicon
+  "favicon": "/favicon.ico"
+  ```
+
+  ```json Light and dark favicons
+  "favicon": {
+    "light": "/favicon.png",
+    "dark": "/favicon-dark.png"
+  }
+  ```
+
+  </CodeGroup>
+</ResponseField>
+
+<ResponseField name="navbar" type="object">
+  Configure links and a primary call-to-action button in the top navigation bar.
+
+  ```json
+  "navbar": {
+    "links": [
+      { "label": "Blog", "href": "https://example.com/blog" },
+      { "type": "github", "href": "https://github.com/example/repo" }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get started",
+      "href": "https://example.com/signup"
+    }
+  }
+  ```
+
+  <Expandable title="Navbar properties">
+    <ResponseField name="links" type="NavbarLink[]">
+      Array of links to display in the navbar. Omit `type` for a plain text link. Set `type` to `"github"` to show a repository with its star count, or `"discord"` to show a server with its online member count.
+    </ResponseField>
+    <ResponseField name="primary" type="object">
+      The primary call-to-action button. Set `type` to `"button"`, `"github"`, or `"discord"`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="footer" type="object">
+  Configure social media links and link columns in the site footer.
+
+  ```json
+  "footer": {
+    "socials": {
+      "x": "https://x.com/example",
+      "github": "https://github.com/example",
+      "linkedin": "https://linkedin.com/company/example"
+    },
+    "links": [
+      {
+        "header": "Resources",
+        "items": [
+          { "label": "Blog", "href": "https://example.com/blog" },
+          { "label": "Changelog", "href": "/changelog" }
+        ]
+      }
+    ]
+  }
+  ```
+
+  <Expandable title="Footer properties">
+    <ResponseField name="socials" type="object">
+      Key-value pairs mapping a social platform to its URL. Supported keys: `x`, `website`, `facebook`, `youtube`, `discord`, `slack`, `github`, `linkedin`, `instagram`, `hacker-news`, `medium`, `telegram`, `bluesky`, `threads`, `reddit`, `podcast`.
+    </ResponseField>
+    <ResponseField name="links" type="FooterLinkGroup[]">
+      Array of link column objects. Each has a `header` string and an `items` array of `{ label, href }` pairs.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="anchors" type="Anchor[]">
+  An array of anchor links displayed at the top of the sidebar. Each anchor links to a section of your docs or an external URL.
+
+  ```json
+  "anchors": [
+    {
+      "anchor": "API reference",
+      "icon": "square-terminal",
+      "groups": [
+        {
+          "group": "Endpoints",
+          "pages": ["api/overview"]
+        }
+      ]
+    },
+    {
+      "anchor": "Changelog",
+      "icon": "list",
+      "href": "/changelog"
+    }
+  ]
+  ```
+
+  <Expandable title="Anchor properties">
+    <ResponseField name="anchor" type="string" required>
+      The label displayed for the anchor in the sidebar.
+    </ResponseField>
+    <ResponseField name="icon" type="string">
+      Icon name from Lucide or Font Awesome.
+    </ResponseField>
+    <ResponseField name="href" type="string">
+      External or internal URL the anchor links to. Use this for anchors that point outside the docs.
+    </ResponseField>
+    <ResponseField name="groups" type="Group[]">
+      Navigation groups shown when this anchor is active.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tabs" type="Tab[]">
+  An array of tabs shown at the top of the sidebar. Use tabs to separate content into distinct sections.
+
+  ```json
+  "tabs": [
+    {
+      "tab": "Guides",
+      "groups": [
+        {
+          "group": "Getting started",
+          "pages": ["quickstart"]
+        }
+      ]
+    },
+    {
+      "tab": "API reference",
+      "pages": ["api/overview"]
+    }
+  ]
+  ```
+
+  <Expandable title="Tab properties">
+    <ResponseField name="tab" type="string" required>
+      The label displayed on the tab.
+    </ResponseField>
+    <ResponseField name="icon" type="string">
+      Icon name displayed next to the tab label.
+    </ResponseField>
+    <ResponseField name="groups" type="Group[]">
+      Navigation groups shown within this tab.
+    </ResponseField>
+    <ResponseField name="pages" type="string[]">
+      Flat list of page paths within this tab, without grouping.
+    </ResponseField>
+    <ResponseField name="href" type="string">
+      External URL the tab links to instead of showing doc pages.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="api" type="object">
+  Configuration for the API playground and code example generation.
+
+  ```json
+  "api": {
+    "openapi": "openapi.json",
+    "playground": {
+      "display": "interactive"
+    },
+    "examples": {
+      "languages": ["bash", "javascript", "python"],
+      "defaults": "required"
+    },
+    "mdx": {
+      "server": "https://api.example.com",
+      "auth": {
+        "method": "bearer"
+      }
+    }
+  }
+  ```
+
+  <Expandable title="API properties">
+    <ResponseField name="openapi" type="string | string[] | object">
+      Path or URL pointing to your OpenAPI specification file. Accepts a single path, an array of paths, or an object with `source` and `directory` keys.
+    </ResponseField>
+
+    <ResponseField name="playground" type="object">
+      Controls the interactive API playground.
+
+      <Expandable title="Playground properties">
+        <ResponseField name="display" type='"interactive" | "simple" | "none"' default="interactive">
+          - `"interactive"`: Full playground where visitors can fill in parameters and send requests.
+          - `"simple"`: Displays the endpoint without interactive inputs.
+          - `"none"`: Hides the playground entirely.
+        </ResponseField>
+        <ResponseField name="proxy" type="boolean">
+          Route playground requests through Mintlify's proxy to avoid CORS issues.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="examples" type="object">
+      Controls auto-generated code examples for each endpoint.
+
+      <Expandable title="Examples properties">
+        <ResponseField name="languages" type="string[]">
+          Languages to generate code examples for. Options: `bash`, `go`, `java`, `javascript`, `node`, `php`, `powershell`, `python`, `ruby`, `swift`.
+        </ResponseField>
+        <ResponseField name="defaults" type='"required" | "all"'>
+          Whether generated examples include only required parameters (`"required"`) or all parameters including optional ones (`"all"`).
+        </ResponseField>
+        <ResponseField name="autogenerate" type="boolean">
+          Automatically generate code examples from the OpenAPI spec.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="mdx" type="object">
+      Settings for MDX-defined API pages.
+
+      <Expandable title="MDX properties">
+        <ResponseField name="server" type="string">
+          The base URL for all API endpoints defined in MDX pages.
+        </ResponseField>
+        <ResponseField name="auth" type="object">
+          Authentication configuration for the playground.
+
+          <Expandable title="Auth properties">
+            <ResponseField name="method" type='"bearer" | "basic" | "key" | "cobo"'>
+              The authentication strategy used for API requests.
+            </ResponseField>
+            <ResponseField name="name" type="string">
+              The name of the authentication parameter shown in the playground. For `basic` auth, format as `username:password`.
+            </ResponseField>
+            <ResponseField name="inputPrefix" type="string">
+              A default prefix prepended to the authentication input field value.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="openapi" type="string | string[]">
+  A path or URL pointing to your OpenAPI specification. Use an array to load multiple specs.
+
+  <CodeGroup>
+
+  ```json Absolute URL
+  "openapi": "https://api.example.com/openapi.json"
+  ```
+
+  ```json Relative path
+  "openapi": "/openapi.json"
+  ```
+
+  ```json Multiple specs
+  "openapi": [
+    "https://api.example.com/openapi.json",
+    "/internal/openapi.json"
+  ]
+  ```
+
+  </CodeGroup>
+
+  <Note>
+    You can also configure OpenAPI inside the `api` object using `api.openapi`. The top-level `openapi` field is a shorthand for simpler setups.
+  </Note>
+</ResponseField>
+
+<ResponseField name="modeToggle" type="object">
+  Customize the dark/light mode toggle behavior.
+
+  <CodeGroup>
+
+  ```json Force dark mode
+  "modeToggle": {
+    "default": "dark",
+    "isHidden": true
+  }
+  ```
+
+  ```json Force light mode
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  }
+  ```
+
+  </CodeGroup>
+
+  <Expandable title="ModeToggle properties">
+    <ResponseField name="default" type='"light" | "dark"'>
+      Sets the initial color mode for new visitors. When not set, Mintlify matches the visitor's operating system preference.
+    </ResponseField>
+    <ResponseField name="isHidden" type="boolean" default="false">
+      Set to `true` to hide the dark/light mode toggle from the navbar. Combine with `default` to lock your docs to a single color mode.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="backgroundImage" type="string">
+  Path to a background image displayed behind every page. The image is tiled or stretched to fill the viewport.
+
+  ```json
+  "backgroundImage": "/images/background.svg"
+  ```
+
+  <Tip>
+    For more control over background images — including separate light and dark variants and decoration options like gradients and grids — use the `background` object instead.
+  </Tip>
+</ResponseField>
+
+<ResponseField name="background" type="object">
+  Advanced background configuration with image, color, and decoration options.
+
+  ```json
+  "background": {
+    "image": {
+      "light": "/images/bg-light.svg",
+      "dark": "/images/bg-dark.svg"
+    },
+    "decoration": "gradient",
+    "color": {
+      "light": "#FFFFFF",
+      "dark": "#0F172A"
+    }
+  }
+  ```
+
+  <Expandable title="Background properties">
+    <ResponseField name="image" type="object">
+      Separate background images for light and dark mode.
+    </ResponseField>
+    <ResponseField name="decoration" type='"gradient" | "grid" | "windows"'>
+      A built-in decorative pattern to display behind page content.
+    </ResponseField>
+    <ResponseField name="color" type="object">
+      Override the background color with separate `light` and `dark` hex values.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="appearance" type="object">
+  Configure the default color mode and whether visitors can switch modes.
+
+  ```json
+  "appearance": {
+    "default": "system",
+    "strict": false
+  }
+  ```
+
+  <Expandable title="Appearance properties">
+    <ResponseField name="default" type='"system" | "light" | "dark"' default="system">
+      The default color mode for new visitors. `"system"` follows the visitor's OS preference.
+    </ResponseField>
+    <ResponseField name="strict" type="boolean" default="false">
+      Set to `true` to hide the color mode toggle and lock the site to the `default` mode.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="theme" type="string">
+  The visual theme for your documentation site.
+
+  ```json
+  "theme": "mint"
+  ```
+
+  Available themes: `mint`, `maple`, `palm`, `willow`, `almond`, `aspen`, `sequoia`, `luma`.
+
+  <Tip>
+    If you're building docs for an AI or SaaS product, `maple` is a popular choice. For a minimal, stripped-back look, try `willow`.
+  </Tip>
+</ResponseField>
+
+<ResponseField name="banner" type="object">
+  Display a site-wide announcement banner at the top of every page. Supports basic Markdown for links, bold, and italic text.
+
+  ```json
+  "banner": {
+    "content": "Version 2.0 is live! [See what's new](/changelog)",
+    "dismissible": true
+  }
+  ```
+
+  <Expandable title="Banner properties">
+    <ResponseField name="content" type="string" required>
+      The message to display. Supports Markdown links, `**bold**`, and `_italic_`.
+    </ResponseField>
+    <ResponseField name="dismissible" type="boolean" default="false">
+      Allow visitors to close the banner.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
